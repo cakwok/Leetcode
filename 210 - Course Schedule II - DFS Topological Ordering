@@ -1,0 +1,52 @@
+class Solution(object):
+
+    def findOrder(self, numCourses, prerequisites):
+
+        #initialize list of list, of the 1:N course to prerequsites
+        course_table_row = []
+        for i in range(numCourses):
+            course_table_row.append([]) #each list is initialize with an empty list
+
+        #decompose prerequisites into 1:N course to prerequsites, eg course 0, prerequsites[1,2]
+        for courses_to_take, numofPrerequistes in prerequisites:
+            #print (courses_to_take, numofPrerequistes)
+            course_table_row[courses_to_take].append(numofPrerequistes)
+            #print ("course_table_row", courses_to_take, "->", course_table_row[courses_to_take])
+
+        visited_list = []   #initialize the visited_list to inspect if it is visited.  return false if detected.
+        cycle_list = []
+        topological_order_list = []
+
+        #create DFS for each node
+        def dfs(classes):
+
+            print("classes", classes)
+
+            if classes in visited_list:
+                return True
+            if classes in cycle_list:       #if course_table_row[classess] is empty, meaning no cycle is detected.
+                return False
+
+            cycle_list.append(classes)            #append class into the visited list when visited the first time
+
+            for nodes in course_table_row[classes]: #loop to inspect each prerequsites components
+                #print ("nodes", nodes)
+
+                if dfs(nodes) == False:
+                    return False
+
+            cycle_list.remove(classes)            #if detected no outlinks, remove from visited list
+            visited_list.append(classes)
+            #print ("cycle_list", cycle_list)
+            #print("visited_list", visited_list)
+
+            topological_order_list.append(classes)
+            #print("topological_order_list", topological_order_list)
+
+            return True                             #return true if not found in cycle
+
+        for classes in range(numCourses):           #inspect each list of list
+            if dfs(classes) == False:
+                return False
+
+        return topological_order_list
