@@ -1,0 +1,47 @@
+class Solution(object):
+
+    def canFinish(self, numCourses, prerequisites):
+
+        #initialize list of list, of the 1:N course to prerequsites
+        course_table_row = []
+        for i in range(numCourses):
+            course_table_row.append([]) #each list is initialize with an empty list
+
+        #decompose prerequisites into 1:N course to prerequsites, eg course 0, prerequsites[1,2]
+        for courses_to_take, numofPrerequistes in prerequisites:
+            course_table_row[courses_to_take].append(numofPrerequistes)
+            print (courses_to_take, "->", numofPrerequistes)
+            print("course_table_row[courses_to_take]", course_table_row[courses_to_take])
+
+        visited_list = []   #initialize the visited_list to inspect if it is visited.  return false if detected.
+
+        #create DFS for each node
+        def dfs(classes):
+
+            print("classes", classes)
+
+            if classes in visited_list:             #if classes exist in the list, then cycle is detected
+                return False
+            if not course_table_row[classes]:
+                return True
+
+            visited_list.append(classes)            #append class into the visited list when visited the first time
+
+            for nodes in course_table_row[classes]: #loop to inspect each prerequsites components
+                print ("nodes", nodes)
+
+                if dfs(nodes) == False:
+                    return False
+
+            #visited_list.remove(classes)            #if no cycle detected, remove from visited list
+
+            #course_table_row[classes] = []          #if no outlinks detected, empty prerequsites list
+
+            return True
+
+        for classes in range(numCourses):           #inspect each list of list
+            print("classes in range numCourses", classes)
+            if dfs(classes) == False:
+                return False
+
+        return True
