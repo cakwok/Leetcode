@@ -12,9 +12,9 @@ class Graph:
 		self.graph.append([u, v, weight])
 
 	# print out distance of vertex to source
-	def print_SingleSourceShortestPath(self, distance):
+	def print_SingleSourceShortestPath(self, distance, source):
 		print("Vertex\t Distance to Source")
-		for i in range(1, self.numofVertices + 1):
+		for i in range(source, self.numofVertices + source):	# "source" to tailer printout index.  sometimes source is S which is 0, sometimes it's A, of which is intrintively 1
 			print("{0}\t\t{1}".format(i, distance[i]))
 		print("\n")
 
@@ -40,7 +40,7 @@ class Graph:
 						return
 
 		# print all distance
-		self.print_SingleSourceShortestPath(distance)
+		self.print_SingleSourceShortestPath(distance, source)
 
 		return
 
@@ -64,6 +64,25 @@ g.addEdge(7, 6, 1)
 g.addEdge(7, 8, 1)
 
 g.BellmanFord(1)    # Run BellmanFord with "1" as source
+
+#-----------------
+print("4b.  Graph for Figure 4.14 P124 DPV")
+
+g = Graph(8)
+
+g.addEdge(0, 1, 10)
+g.addEdge(0, 7, 8)
+g.addEdge(1, 5, 2)
+g.addEdge(2, 1, 1)
+g.addEdge(2, 3, 1)
+g.addEdge(3, 4, 3)
+g.addEdge(4, 5, -1)
+g.addEdge(5, 2, -2)
+g.addEdge(6, 1, -4)
+g.addEdge(6, 5, -1)
+g.addEdge(7, 6, 1)
+
+g.BellmanFord(0)
 
 #-----------------
 print("4c.  Graph for Figure 24.4 P652 CLRS")
