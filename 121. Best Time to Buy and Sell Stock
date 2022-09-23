@@ -1,0 +1,57 @@
+
+def maxProfit(prices):
+    lower = 0; upper = 0; midpoint = 0; difference = [];
+
+    for i in range(len(prices)-1):  #Calculate price difference to calculate maximum profit
+        difference.append(prices[i+1] - prices[i])
+    difference.append(-100000)
+    #print ("difference", difference)
+
+    test = FindMaxSubarray(difference, lower, len(prices)-1)
+    #print (test)
+
+    return test
+
+
+def FindMaxSubarray(difference, lower, upper):
+
+    #print ("lower", lower)
+    #print ("upper", upper)
+
+    if lower == upper:
+        print("difference[lower]", difference[lower])
+        return difference[lower]
+
+    midpoint = (lower + upper) //2
+
+    return max(FindMaxSubarray(difference, lower, midpoint),
+                FindMaxSubarray(difference, midpoint+1, upper),
+                FindCrossSum(difference, lower, midpoint, upper))
+
+def FindCrossSum(difference, lower, midpoint, upper):
+        sum = 0; left_sum = -1000000;
+
+        for i in range (midpoint, lower, -1):
+            print("difference[i]", difference[i])
+            sum = sum + difference[i]
+            if sum > left_sum:
+                left_sum = sum
+
+        #print("left_sum", left_sum)
+
+        sum = 0; right_sum = -1000000;
+        for i in range (midpoint + 1, upper):
+            print("i", i)
+            print("difference[i]]", difference[i])
+            sum = sum + difference[i]
+            if sum > right_sum:
+                right_sum = sum
+        #print("right_sum", right_sum)
+
+        return max(right_sum, left_sum, right_sum+left_sum)
+
+
+
+prices = [7,1,5,3,6,4]
+#difference = [-6, 4, -2, 3, -2] #find max subarray from here
+print(maxProfit(prices))
