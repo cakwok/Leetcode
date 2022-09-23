@@ -1,0 +1,54 @@
+class Solution(object):
+
+    def maxSubArray(nums):
+
+        if len(nums) == 1:
+            return nums
+
+        if len(nums) == 2:
+            return max(nums[0], nums[1])
+
+        lower = 0; upper = 0; midpoint = 0;
+
+        result = FindMaxSubarray(nums, lower, len(nums)-1)
+        #print (test)
+        return result
+
+
+    def FindMaxSubarray(nums, lower, upper):
+
+        #print ("lower", lower)
+        #print ("upper", upper)
+
+        if lower == upper:
+            print("nums[lower]", nums[lower])
+            return nums[lower]
+
+        midpoint = (lower + upper) //2
+        print ("midpoint ", midpoint)
+        return max(FindMaxSubarray(nums, lower, midpoint),
+                    FindMaxSubarray(nums, midpoint+1, upper),
+                    FindCrossSum(nums, lower, midpoint, upper))
+
+    def FindCrossSum(nums, lower, midpoint, upper):
+            sum = 0; left_sum = -1000000;
+
+            for i in range (midpoint, lower, -1):
+                print("nums[i]", nums[i])
+                sum = sum + nums[i]
+                if sum > left_sum:
+                    left_sum = sum
+
+            #print("left_sum", left_sum)
+
+            sum = 0; right_sum = -1000000;
+            for i in range (midpoint + 1, upper):
+                print("i", i)
+                print("nums[i]]", nums[i])
+                sum = sum + nums[i]
+                if sum > right_sum:
+                    right_sum = sum
+            #print("right_sum", right_sum)
+
+            return max(right_sum, left_sum, right_sum+left_sum)
+
