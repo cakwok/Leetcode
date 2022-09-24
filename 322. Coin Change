@@ -1,0 +1,30 @@
+class Solution:
+
+    def __init__(self, choiceofCoins, amount):
+        self.choiceofCoins = choiceofCoins
+        self.amount = amount
+
+    def coinChange(self):
+
+        suboptimal = [1000000] * (amount + 1)
+        suboptimal[0] = 0
+
+        for i in range(1, self.amount + 1):
+            for c in self.choiceofCoins:
+                if i - c >=0:
+                    suboptimal[i] = min(suboptimal[i], 1 + suboptimal[i - c])
+
+        if suboptimal[amount] != 1000000:
+            return suboptimal[amount]
+        return -1
+
+
+choiceofCoins = [1,2,5]
+amount = 11
+test = Solution(choiceofCoins, amount)
+print(test.coinChange())
+
+choiceofCoins = [2]
+amount = 3
+test = Solution(choiceofCoins, amount)
+print(test.coinChange())
