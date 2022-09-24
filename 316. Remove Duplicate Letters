@@ -1,0 +1,49 @@
+#working leetcode config
+class Solution(object):
+
+    def removeDuplicateLetters(self, s):
+        sorted_string = self.merge_sort(s)
+        result = sorted_string[0]
+        for i in range(0, len(sorted_string)-1):
+            if sorted_string[i] !=  sorted_string[i+1] :
+                result = result + sorted_string[i+1]
+        return result
+
+    def merge_sort(self, L):
+        if len(L) <= 1:
+            return L
+        mid = len(L)//2
+        L1 = self.merge_sort(L[:mid])
+        L2 = self.merge_sort(L[mid:])
+        return self.merge(L1, L2)
+
+    def merge(self, L1, L2):
+
+        i = j = 0
+        m, n = len(L1), len(L2)
+        result = []
+        while i + j < m + n:
+            if i < m and j < n:
+                if L1[i] < L2[j]:
+                    result.append(L1[i])
+                    i += 1
+                else:
+                    result.append(L2[j])
+                    j += 1
+            elif i < m:
+                result.append(L1[i])
+                i += 1
+            else:
+                result.append(L2[j])
+                j += 1
+        return result
+
+        """
+        :type s: str
+        :rtype: str
+        """
+
+        """
+        :type s: str
+        :rtype: str
+        """
